@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const orderSchema = Joi.object({
+export const orderSchema = Joi.object({
     id: Joi.number().integer().min(1),
     total: Joi.number().precision(2).positive().required(),
     products: Joi.array().items(
