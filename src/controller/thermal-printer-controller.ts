@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { ordersService } from '@/services/orders-service';
-const escpos = require('escpos');
 const { ThermalPrinter, PrinterTypes, CharacterSet, BreakLine } = require('node-thermal-printer');
 import { characterSet } from 'node-thermal-printer';
 
@@ -17,7 +16,7 @@ let printer = new ThermalPrinter({
       timeout: 5000                                           // Connection timeout (ms) [applicable only for network printers] - default: 3000
     }
   });
-  
+
 const printAOrder = async (req: Request, res: Response) => {
   const { numeropedido } = req.params;
 
