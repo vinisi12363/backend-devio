@@ -8,6 +8,6 @@ const getAllProducts = async () => {
     }
 }
 
-export const produtosRepository = {
+export const productsRepository = {
     getAllProducts
 }

@@ -2,7 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import { loadEnv } from './config';
-import { productsRoute } from './routers/produtos-router';
+import { productsRoute } from './routers/products-router';
 
 
 loadEnv();
