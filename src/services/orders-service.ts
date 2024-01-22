@@ -25,18 +25,29 @@ const getOrdersByStatus = async (status: string) => {
     }
 }
 
-const deleteOrderByStatus = async (status: string) => {
+const deleteOrderById = async (id: number) => {
     try {
-        return await ordersRepository.deleteOrderByStatus(status);
+        return await ordersRepository.deleteOrderById(id);
     } catch (error) {
         throw error;
     
     }
+}
+
+const updateOrderById = async (id: number , status:string) => {
+    try {
+        return await ordersRepository.updateOrderById(id, status);
+    } catch (error) {
+        throw error;
+    
+    }
+
 }
 export const ordersService = {
 
     getOrders,
     postOrder,
     getOrdersByStatus,
-    deleteOrderByStatus
+    deleteOrderById,
+    updateOrderById
 }

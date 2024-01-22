@@ -16,9 +16,9 @@ const getAllOrders = async () => {
     }
  }
 
- const deleteOrderByStatus = async (status: string) => {
+ const deleteOrderById = async (id: number) => {
     try {
-        return await db.query('DELETE FROM orders WHERE status = $1;', [status]);
+        return await db.query('DELETE FROM orders WHERE numeropedido = $1;', [id]);
     } catch (error) {
         throw error;
     }
@@ -50,9 +50,19 @@ const getAllOrders = async () => {
         throw error;
     }
 };
+const updateOrderById = async (id: number , newStatus:string) => {
+   
+    try {
+        return await db.query('UPDATE orders SET status = $1 WHERE numeropedido = $2;', [newStatus, id]);
+    } catch (error) {
+        throw error;
+    }
 
+
+
+}
 
 
 export const ordersRepository = {
-    getAllOrders, createOrder, getOrdersByStatus, deleteOrderByStatus
+    getAllOrders, createOrder, getOrdersByStatus, deleteOrderById, updateOrderById
 }

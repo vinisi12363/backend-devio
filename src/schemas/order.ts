@@ -20,5 +20,5 @@ export const orderSchema = Joi.object({
     observacao: Joi.string().max(255),
     nomeCliente: Joi.string().max(100).required(),
     numeroPedido: Joi.number().integer().min(1),
-    status: Joi.string().valid('pendente', 'preparando', 'concluído', 'entregue').required()
+    status: Joi.string().valid('pendente', 'preparando', 'pronto', 'entregue').required()
 });
