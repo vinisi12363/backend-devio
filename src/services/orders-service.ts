@@ -43,11 +43,22 @@ const updateOrderById = async (id: number , status:string) => {
     }
 
 }
+
+const getOrderById =  async (id:number)=>{
+    try {
+        return await ordersRepository.getOrderById(id);
+    } catch (error) {
+        throw error;
+    
+    }
+
+}
 export const ordersService = {
 
     getOrders,
     postOrder,
     getOrdersByStatus,
     deleteOrderById,
-    updateOrderById
+    updateOrderById,
+    getOrderById
 }

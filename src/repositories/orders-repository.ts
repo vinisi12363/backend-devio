@@ -62,7 +62,15 @@ const updateOrderById = async (id: number , newStatus:string) => {
 
 }
 
+const getOrderById = async (id: number) => {
+    try {
+        return await db.query('SELECT * FROM orders WHERE id = $1;', [id]);
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 export const ordersRepository = {
-    getAllOrders, createOrder, getOrdersByStatus, deleteOrderById, updateOrderById
+    getAllOrders, createOrder, getOrdersByStatus, deleteOrderById, updateOrderById, getOrderById
 }
