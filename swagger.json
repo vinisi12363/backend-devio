@@ -22,16 +22,16 @@
                     "preco": 10.99,
                     "imagem": "imagemPng",
                     "codigo": "123456",
-                    "descricao": " descricao do Produto A",
+                    "descricao": "descricao do Produto A",
                     "quantidade": 1
                   },
                   {
                     "id": 2,
-                    "nome": "Produto b",
+                    "nome": "Produto B",
                     "preco": 9.99,
                     "imagem": "imagemPng",
                     "codigo": "12345",
-                    "descricao": " descricao do Produto B",
+                    "descricao": "descricao do Produto B",
                     "quantidade": 1
                   }
                 ]
@@ -42,8 +42,44 @@
       }
     },
     "/orders": {
+      "get": {
+        "summary": "Obter todos os pedidos",
+        "tags": ["Orders"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "nomecliente": "Nome do Cliente",
+                  "status": "preparando",
+                  "products": [
+                    {
+                      "produto_id": 1,
+                      "nome": "produto",
+                      "quandidade": 21,
+                      "imagem": "imagemPng",
+                      "preco": 10.99,
+                      "descricao": "descricao do produto",
+                      "codigo": "123456"
+                    }
+                  ],
+                  "total": 15.99,
+                  "numeropedido": 1,
+                  "metodopagamento": "dinheiro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          }
+        }
+      },
       "post": {
         "summary": "Criar novo pedido",
+        "tags": ["Orders"],
         "requestBody": {
           "required": true,
           "content": {
@@ -52,134 +88,26 @@
                 "$ref": "#/components/schemas/Order"
               }
             }
-          },
-          "responses": {
-            "200": {
-              "description": "Pedido criado com sucesso",
-              "headers": {
-                "Location": {
-                  "description": "URL para acessar o pedido recém-criado",
-                  "schema": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Requisição inválida."
-            }
           }
         },
-        "get": {
-          "summary": "Obter todos os pedidos",
-          "parameters": [
-            {
-              "name": "orderId",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "example": {
-                    "id": 1,
-                    "nomecliente": "Nome do Cliente",
-                    "status": "preparando",
-                    "products": [
-                      {
-                        "produto_id": 1,
-                        "nome": "produto",
-                        "quandidade": 21,
-                        "imagem": "imagemPng",
-                        "preco": 10.99,
-                        "descricao": "descricao do produto",
-                        "codigo": "123456"
-                      }
-                    ],
-                    "total": 15.99,
-                    "numeropedido": 1,
-                    "metodopagamento": "dinheiro"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Pedido não encontrado"
-            }
-          }
-        },
-        "delete": {
-          "summary": "Cancelar pedido",
-          "parameters": [
-            {
-              "name": "orderId",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "type": "number"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Pedido cancelado com sucesso"
-            },
-            "404": {
-              "description": "Pedido não encontrado"
-            }
-          },
-          "update": {
-            "summary": "atualizar o status do  pedido",
-            "parameters": [
-              {
-                "id": "orderId",
-                "status": "string",
-                "required": true,
+        "responses": {
+          "200": {
+            "description": "Pedido criado com sucesso",
+            "headers": {
+              "Location": {
+                "description": "URL para acessar o pedido recém-criado",
                 "schema": {
-                  "type": "number"
+                  "type": "string"
                 }
               }
-            ],
-            "responses": {
-              "200": {
-                "description": "OK"
-              },
-              "404": {
-                "description": "Pedido não encontrado"
-              }
             }
-          }
-        },
-        "/printer": {
-          "post": {
-            "summary": "Imprimir pedido na impressora térmica",
-            "requestBody": {
-              "required": true,
-              "content": {
-                "application/json": {
-                  "example": {
-                    "orderId": 1
-                  }
-                }
-              }
-            },
-            "responses": {
-              "200": {
-                "description": "Impressão concluída com sucesso."
-              },
-              "400": {
-                "description": "Erro ao imprimir o pedido."
-              }
-            }
+          },
+          "400": {
+            "description": "Requisição inválida."
           }
         }
       },
+      
       "components": {
         "schemas": {
           "Order": {
@@ -247,7 +175,75 @@
             }
           }
         }
+      },
+      "delete": {
+        "summary": "Cancelar pedido",
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "numeropedido": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido cancelado com sucesso"
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar o status do pedido",
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "numeropedido": "number",
+            "status": "string",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          }
+        }
+      }
+    },
+    "/printer": {
+      "get": {
+        "summary": "Imprimir pedido na impressora térmica",
+        "tags": ["Printer"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "orderId": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Impressão concluída com sucesso."
+          },
+          "400": {
+            "description": "Erro ao imprimir o pedido."
+          }
+        }
       }
     }
+  
   }
 }
