@@ -2,8 +2,9 @@
 import express from 'express';
 import cors from 'cors';
 import { loadEnv } from './config';
-import { productsRoute } from './routers/produtos-router';
-
+import { productsRoute } from './routers/products-route';
+import { ordersRoute } from './routers/orders-route';
+import { thermalPrinterRoute } from './routers/printer-route';
 
 loadEnv();
 const app = express();
@@ -15,7 +16,9 @@ app
 .use(cors())
 .use(express.json())
 .get("/health", (_req, res) => res.send("OK!"))
-.use("/products", productsRoute);
+.use("/products", productsRoute)
+.use("/orders", ordersRoute)
+.use("/printer", thermalPrinterRoute)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
