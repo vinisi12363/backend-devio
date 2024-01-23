@@ -5,6 +5,9 @@ import { loadEnv } from './config';
 import { productsRoute } from './routers/products-route';
 import { ordersRoute } from './routers/orders-route';
 import { thermalPrinterRoute } from './routers/printer-route';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
+
 
 loadEnv();
 const app = express();
@@ -19,7 +22,7 @@ app
 .use("/products", productsRoute)
 .use("/orders", ordersRoute)
 .use("/printer", thermalPrinterRoute)
-
+.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

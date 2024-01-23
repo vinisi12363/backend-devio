@@ -1,0 +1,253 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sistema de Pedidos",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de pedidos"
+  },
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Obter lista de produtos",
+        "description": "Rota responsável por obter lista de produtos",
+        "tags": ["Products"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "nome": "Produto A",
+                    "preco": 10.99,
+                    "imagem": "imagemPng",
+                    "codigo": "123456",
+                    "descricao": " descricao do Produto A",
+                    "quantidade": 1
+                  },
+                  {
+                    "id": 2,
+                    "nome": "Produto b",
+                    "preco": 9.99,
+                    "imagem": "imagemPng",
+                    "codigo": "12345",
+                    "descricao": " descricao do Produto B",
+                    "quantidade": 1
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Criar novo pedido",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Pedido criado com sucesso",
+              "headers": {
+                "Location": {
+                  "description": "URL para acessar o pedido recém-criado",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Requisição inválida."
+            }
+          }
+        },
+        "get": {
+          "summary": "Obter todos os pedidos",
+          "parameters": [
+            {
+              "name": "orderId",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "id": 1,
+                    "nomecliente": "Nome do Cliente",
+                    "status": "preparando",
+                    "products": [
+                      {
+                        "produto_id": 1,
+                        "nome": "produto",
+                        "quandidade": 21,
+                        "imagem": "imagemPng",
+                        "preco": 10.99,
+                        "descricao": "descricao do produto",
+                        "codigo": "123456"
+                      }
+                    ],
+                    "total": 15.99,
+                    "numeropedido": 1,
+                    "metodopagamento": "dinheiro"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Pedido não encontrado"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Cancelar pedido",
+          "parameters": [
+            {
+              "name": "orderId",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Pedido cancelado com sucesso"
+            },
+            "404": {
+              "description": "Pedido não encontrado"
+            }
+          },
+          "update": {
+            "summary": "atualizar o status do  pedido",
+            "parameters": [
+              {
+                "id": "orderId",
+                "status": "string",
+                "required": true,
+                "schema": {
+                  "type": "number"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "OK"
+              },
+              "404": {
+                "description": "Pedido não encontrado"
+              }
+            }
+          }
+        },
+        "/printer": {
+          "post": {
+            "summary": "Imprimir pedido na impressora térmica",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "example": {
+                    "orderId": 1
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Impressão concluída com sucesso."
+              },
+              "400": {
+                "description": "Erro ao imprimir o pedido."
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Order": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "nomecliente": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "products": {
+                "type": "array",
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "produto_id": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "quantidade": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "preco": {
+                      "type": "number",
+                      "format": "double"
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "imagem": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "number",
+                "format": "double"
+              },
+              "metodopagamento": {
+                "type": "number",
+                "format": "double"
+              },
+              "observacao": {
+                "type": "number",
+                "format": "double"
+              },
+              "troco": {
+                "type": "number",
+                "format": "double"
+              },
+              "numeropedido": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
