@@ -28,7 +28,7 @@ const deleteOrderById = async (req: Request, res: Response) => {
 
   try {
     const result = await ordersService.deleteOrderById(Number(req.params.numeropedido));
-    
+   
     return res.status(httpStatus.OK).send(result.rows);
   } catch (error) {
     console.log("ERRO", error);
